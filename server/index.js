@@ -57,7 +57,9 @@ app.use(helmet()); // secures the header section
 app.use(xss()); // secures fron cross-side scripting attacks
 app.use(mongoSanitize()); // secures the mongoDb datbase
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  credentials: true
+}));
 app.use(morgan("dev"));
 
 //homeroute root

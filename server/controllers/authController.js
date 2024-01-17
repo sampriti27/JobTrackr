@@ -1,4 +1,6 @@
 import userModel from "../models/userModel.js";
+import { generateToken, storeRefreshToken } from "../utils/index.js";
+
 
 export const registerController = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -17,9 +19,6 @@ export const registerController = async (req, res, next) => {
   }
 
   const user = await userModel.create({ name, email, password });
-
-  //token
-  const token = user.createJwt();
 
   res.status(201).json({
     auth: true,
@@ -57,12 +56,44 @@ export const loginController = async (req, res, next) => {
   }
 
   user.password = undefined;
-  const token = user.createJwt();
+  
+
+  // Token Generation start -----------------------
+
+  const {accessToken, refreshToken } = generateToken({_id : user._id});
+  console.log(accessToken, refreshToken)
+
+
+  // storing refresh token in db
+  // await storeRefreshToken(refreshToken, user._id);
+
+  //send token to cookie
+  // res.cookie('refreshToken', refreshToken, {
+  //   maxAge: 1000*60*60*24*30,
+  //   httpOnly: true,
+  //   sameSite: none,
+  //   secure: true
+
+  // });
+
+  // res.cookie('accessToken', accessToken, {
+  //   maxAge: 1000*60*60*24*30,
+  //   httpOnly: true,
+  //   sameSite: none,
+  //   secure: true
+
+  // });
+
+
+
+  // Token Generation End -----------------------
+
+
   res.status(200).json({
     auth: true,
     message: "Login successful",
-    user,
-    token,
+    // user,
+    // token,
   });
 };
 
