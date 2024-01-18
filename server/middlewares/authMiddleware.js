@@ -1,20 +1,30 @@
-import jwt from "jsonwebtoken";
+import { verifyAccessToken } from "../utils/index.js";
 
 const userAuth = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith("Bearer")) {
-    next("Auth Failed");
-  }
-
-  const token = authHeader.split(" ")[1];
+ 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    // get the accesstoken from cookies
+    const { accessToken } = req.cookies;
 
-    req.user = { userId: payload.userId };
+    // if token is missing, throw erroe
+    if(!accessToken){
+      throw new Error();
+    }
+
+    // get the user data 
+    const userData = await verifyAccessToken(accessToken);
+
+
+    // if user is not matched, throw error
+    if(!userData){
+      throw new Error();
+    }
+    
+    req.user = userData;
     next();
+
   } catch (error) {
-    next("Authentication Failed");
+    res.status(401).json({error : "Authorization failed!!"})
   }
 };
 

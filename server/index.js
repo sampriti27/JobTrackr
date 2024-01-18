@@ -9,6 +9,7 @@ import dotenv from "dotenv";
 import colors from "colors";
 import cors from "cors";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 //security imports
 import helmet from "helmet";
 import xss from "xss-clean";
@@ -58,8 +59,10 @@ app.use(xss()); // secures fron cross-side scripting attacks
 app.use(mongoSanitize()); // secures the mongoDb datbase
 app.use(express.json());
 app.use(cors({
-  credentials: true
+  credentials: true,
+  origin: ['http://localhost:3000']
 }));
+app.use(cookieParser());
 app.use(morgan("dev"));
 
 //homeroute root
