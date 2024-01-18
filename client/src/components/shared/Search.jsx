@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { resetSearch, setFilterParams, setJobs, setSuccess } from "../../feature/jobs/jobSlice";
-import axios from "axios";
+import { filterJobs } from '../../http';
 
 const Search = () => {
     const dispatch = useDispatch();
@@ -16,15 +16,7 @@ const Search = () => {
     // console.log(params);
 
     try {
-      const {data} = await axios.get( `http://localhost:8080/api/v1/job/get-jobs?page=${params.page}&status=${params.status}&workType=${params.workType}&sort=${params.sort}&search=${params.search}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization:
-            "Bearer " + JSON.parse(localStorage.getItem("token")),
-        },
-      });
+      const {data} = await filterJobs(params);
 
       console.log(data);
       dispatch(setSuccess(data));

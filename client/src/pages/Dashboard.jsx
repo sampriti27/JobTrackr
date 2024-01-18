@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setJobs, setSuccess } from "../feature/jobs/jobSlice";
 import Table from "../components/table/Table";
 import Pagination from "../components/pagination/Pagination";
-import axios from "axios";
 import Category from "../components/category/Category";
 import Search from "../components/shared/Search";
 import Drawer from "../components/drawer/Drawer";
@@ -25,17 +24,7 @@ const Dashboard = () => {
   };
   const getAllJobsData = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8080/api/v1/job/get-jobs",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-        }
-      );
+      const { data } = await getJobs();
       console.log("geting job api:", data);
       dispatch(setSuccess(data));
       dispatch(setJobs(data));
