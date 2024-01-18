@@ -36,7 +36,7 @@ export const registerController = async (req, res, next) => {
 
 export const loginController = async (req, res, next) => {
   const { email, password } = req.body;
-
+  console.log(process.env.ACCESS_TOKEN_SECRET);
   //validate
   if (!email || !password) {
     next("Please provide all Fields");
