@@ -42,11 +42,6 @@ const Login = () => {
     try {
       setLoading(true);
       const { data } = await login({ email, password });
-      const token = data.token;
-
-      //set the token in local-storage
-      localStorage.setItem("token", JSON.stringify(token));
-
       //set user data in redux store
       dispatch(setAuth(data));
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import { formatDistanceToNow } from "date-fns";
 import React from "react";
+import { deleteJob } from "../../http";
 
 const Table = ({ jobs, getAllJobsData }) => {
   const formatCreatedAtDistance = (d) => {
@@ -10,17 +11,7 @@ const Table = ({ jobs, getAllJobsData }) => {
   };
   const handleDelete = async (id) => {
     try {
-      const { data } = await axios.delete(
-        `http://localhost:8080/api/v1/job//delete-job/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-        }
-      );
+      const { data } = await deleteJob(id);
       enqueueSnackbar(data.message, {
         variant: "error",
         anchorOrigin: {

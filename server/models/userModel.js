@@ -47,10 +47,5 @@ userSchema.methods.comparePassword = async function (userPassword) {
   return isMatch;
 };
 
-//JSON WEBTOKEN
-userSchema.methods.createJwt = function () {
-  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
-};
+
 export default mongoose.model("User", userSchema);

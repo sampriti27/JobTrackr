@@ -9,6 +9,7 @@ import {
   setSuccess,
   setFilterParams,
 } from "../../feature/jobs/jobSlice";
+import { filterJobs } from "../../http";
 
 const Drawer = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -26,17 +27,7 @@ const Drawer = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (filterParams) => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:8080/api/v1/job/get-jobs?page=${filterParams.page}&status=${filterParams.status}&workType=${filterParams.workType}&sort=${filterParams.sort}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-        }
-      );
+      const { data } = await filterJobs(filterParams);
 
       console.log("data coming from backend: ", data);
       dispatch(setSuccess(data));
@@ -55,6 +46,7 @@ const Drawer = ({ isOpen, onClose }) => {
       "workType" : "all",
       "sort" : "latest",
       "page" : 1,
+      "search": ""
     };
    dispatch(setFilterParams(updatedParams));
   //  console.log("After reset before submitting:", updatedParams)

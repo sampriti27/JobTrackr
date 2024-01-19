@@ -10,13 +10,22 @@ export const createJobController = async (req, res, next) => {
     next("Please provide all fields!");
   }
 
-  req.body.createdBy = req.user.userId;
-  const job = await jobsModel.create(req.body);
-  res.status(201).json({
-    success: true,
-    message: "Job added successfully!",
-    job,
-  });
+  console.log("Before adding createdBy:", req.body);
+  req.body.createdBy = req.user._id;
+  console.log("After adding createdBy:", req.body);
+
+  try {
+    const job = await jobsModel.create(req.body);
+    res.status(201).json({
+      success: true,
+      message: "Job added successfully!",
+      job,
+    });
+  } catch (error) {
+    // Handle any database errors
+    console.log(error);
+    return next("Error creating job");
+  }
 };
 
 // ********* GET ALL JOBS ***********
@@ -24,7 +33,7 @@ export const getJobsController = async (req, res, next) => {
   const { status, workType, search, sort } = req.query;
   //condition for searching filter
   const queryObject = {
-    createdBy: req.user.userId,
+    createdBy: req.user._id,
   };
 
   //logic filters
@@ -130,7 +139,7 @@ export const deleteJobController = async (req, res, next) => {
     next(`No job found with this id ${id}!`);
   }
 
-  if (!req.user.userId === job.createdBy.toString()) {
+  if (!req.user._id === job.createdBy.toString()) {
     next("You are not authorized to delete this job!");
     return;
   }

@@ -6,6 +6,7 @@ import {
   setSuccess,
   setFilterParams,
 } from "../../feature/jobs/jobSlice";
+import { filterJobs} from "../../http";
 
 const Pagination = () => {
   const [activeButton, setActiveButton] = useState(1);
@@ -17,17 +18,7 @@ const Pagination = () => {
 
   const fetchJobs = async (params) => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:8080/api/v1/job/get-jobs?page=${params.page}&status=${params.status}&workType=${params.workType}&sort=${params.sort}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-        }
-      );
+      const { data } = await filterJobs(params);
 
       console.log(data);
       dispatch(setSuccess(data));
@@ -42,7 +33,7 @@ const Pagination = () => {
     // Update the filterParams with the new page
     const updatedParams = { ...params, page };
     dispatch(setFilterParams(updatedParams));
-    console.log("After dispatch: ", updatedParams);
+    // console.log("After dispatch: ", updatedParams);
 
     // Call fetchJobs directly without setTimeout
     fetchJobs(updatedParams);

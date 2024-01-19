@@ -4,6 +4,7 @@ import {
   loginController,
   registerController,
   logoutController,
+  refresh,
 } from "../controllers/authController.js";
 
 import rateLimit from "express-rate-limit";
@@ -120,6 +121,9 @@ router.post("/register", limiter, registerController);
 
 //LOGIN || POST
 router.post("/login", limiter, loginController);
+
+//REFRESH || GET
+router.get("/refresh", refresh);
 
 //LOGOUT || GET
 router.get("/logout", userAuth, logoutController);
