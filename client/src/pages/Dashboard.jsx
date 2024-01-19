@@ -40,8 +40,9 @@ const Dashboard = () => {
   return (
     <>
       <Navbar toggleDrawer={toggleDrawer}/>
-      <Category />
-      <section className="w-full h-full text-white-300">
+    
+      <section className=" relative w-full h-full text-white-300">
+        <Category />
         <div className="w-full flex items-center justify-between sm:justify-end px-4 md:px-16 py-0 sm:py-3 pt-20 sm:pt-2 ">
           <div className="flex sm:hidden items-center w-[60%] xs:w-[80%]">
           <Search />

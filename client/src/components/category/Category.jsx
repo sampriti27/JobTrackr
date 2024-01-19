@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Button } from "../shared";
 import { categories } from "../../constants";
 import axios from "axios";
@@ -17,12 +17,15 @@ const Category = () => {
 
   const handleChange = (name, value) => {
     // Update filter parameters based on user input
+    console.log("handleChange triggered!");
     const updatedFilterParams = {
       ...filterParams,
       page: 1,
       [name]: value,
     };
+    console.log("updated filterParams: ", updatedFilterParams);
     dispatch(setFilterParams(updatedFilterParams));
+    console.log("filterparams: ", filterParams);
   };
 
   const handleSubmit = async (filterParams) => {
