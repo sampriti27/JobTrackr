@@ -9,7 +9,8 @@ import {
   setSuccess,
   setFilterParams,
 } from "../../feature/jobs/jobSlice";
-import { filterJobs } from "../../http";
+import { filterJobs, logout } from "../../http";
+import { setAuth } from "../../feature/user/userSlice";
 
 const Drawer = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -54,6 +55,15 @@ const Drawer = ({ isOpen, onClose }) => {
    onClose();
   };
 
+  const handleSignout = async () => {
+    try {
+      const { data } = await logout();
+      localStorage.removeItem("token");
+      dispatch(setAuth(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const overlayStyle = {
     position: "fixed",
     top: 0,
@@ -154,7 +164,7 @@ const Drawer = ({ isOpen, onClose }) => {
             </svg>
           </span>
         </div>
-        <p className="text-white-300">Signout</p>
+        <p className="text-white-300" onClick={handleSignout}>Signout</p>
       </div>
       </div>
       </div>

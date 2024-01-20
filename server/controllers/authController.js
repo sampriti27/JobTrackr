@@ -16,8 +16,14 @@ export const registerController = async (req, res, next) => {
       message: "Email already exists!",
     });
   }
+  let user;
+  try {
+     user = await userModel.create({ name, email, password });
 
-  const user = await userModel.create({ name, email, password });
+  } catch (error) {
+    console.log(error);
+  }
+ 
 
   res.status(201).json({
     auth: true,
@@ -28,7 +34,6 @@ export const registerController = async (req, res, next) => {
       email: user.email,
       location: user.location,
     },
-    token,
   });
 };
 
@@ -155,14 +160,14 @@ export const refresh = async (req, res) => {
     res.cookie('refreshToken', refreshToken, {
       maxAge: 1000*60*60*24*30,
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: "none",
       secure: true
     });
 
     res.cookie('accessToken', accessToken, {
       maxAge: 1000*60*60*24*30,
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: "none",
       secure: true
     })
 
@@ -188,8 +193,8 @@ export const logoutController = async (req, res) => {
     removeTokenFromDb(refreshToken);
 
     //delete cookies
-    res.clearCookie('refreshToken');
-    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken', {sameSite: "none", secure: true});
+    res.clearCookie('accessToken', {sameSite: "none", secure: true});
 
 
   res.status(200).json({

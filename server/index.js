@@ -60,7 +60,7 @@ app.use(mongoSanitize()); // secures the mongoDb datbase
 app.use(express.json());
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000']
+  origin: ['http://localhost:3000', 'https://job-trackr-client.vercel.app']
 }));
 app.use(cookieParser());
 app.use(morgan("dev"));

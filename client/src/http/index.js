@@ -12,15 +12,15 @@ const api = axios.create({
 
 // Auth API's
 export const login = (data) => api.post("/api/v1/auth/login", data);
-export const register = (data) => api.post("api/v1/auth/register", data);
-export const getUser = () => api.get("api/v1/user/get-user");
-export const logout = () => api.get("api/v1/auth/logout");
+export const register = (data) => api.post("/api/v1/auth/register", data);
+export const getUser = () => api.get("/api/v1/user/get-user");
+export const logout = () => api.get("/api/v1/auth/logout");
 
 //Job API's
-export const getJobs = () => api.get("api/v1/job/get-jobs");
-export const addJob = (data) => api.post("api/v1/job/create-job", data);
-export const deleteJob = (data) => api.delete(`api/v1/job//delete-job/${data}`);
-export const filterJobs = (params) => api.get( `http://localhost:8080/api/v1/job/get-jobs?page=${params.page}&status=${params.status}&workType=${params.workType}&sort=${params.sort}&search=${params.search}`);
+export const getJobs = () => api.get("/api/v1/job/get-jobs");
+export const addJob = (data) => api.post("/api/v1/job/create-job", data);
+export const deleteJob = (data) => api.delete(`/api/v1/job//delete-job/${data}`);
+export const filterJobs = (params) => api.get( `/api/v1/job/get-jobs?page=${params.page}&status=${params.status}&workType=${params.workType}&sort=${params.sort}&search=${params.search}`);
 
 
 api.interceptors.response.use((config) => {
@@ -31,7 +31,7 @@ api.interceptors.response.use((config) => {
       originalRequest._isRetry = true;
 
       try {
-          await axios.get('http://localhost:8080/api/v1/auth/refresh', {
+          await axios.get(`http://localhost:8080/api/v1/auth/refresh`, {
               withCredentials : true
           });
 

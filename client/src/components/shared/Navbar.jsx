@@ -16,7 +16,6 @@ const Navbar = ({toggleDrawer}) => {
   const handleLogout = async () => {
     try {
       const { data } = await logout();
-      localStorage.removeItem("token");
       dispatch(setAuth(data));
     } catch (error) {
       console.log(error);
