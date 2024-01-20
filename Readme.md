@@ -32,7 +32,7 @@ Login Page
 Dashboard
 
 ![Screenshot 3](https://res.cloudinary.com/dewu8pifs/image/upload/v1705772684/Screenshot_38_ho2rid.png)
-Add Room Modal
+Add Job Modal
 
 ![Screenshot 4](https://res.cloudinary.com/dewu8pifs/image/upload/v1705772683/Screenshot_36_pdnee5.png)
 Category Section
